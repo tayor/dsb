@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 __author__ = 'ZFTurbo: https://kaggle.com/zfturbo'
 
+#Results on public leaderboard: 0.60328
+
 # This is simple script with many limitation due to run on Kaggle CPU server.
 # There is used simple CNN with low number of conv layers and filters.
 # You can improve this script while run on local GPU just by changing some constants

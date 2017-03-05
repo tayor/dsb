@@ -25,18 +25,18 @@ from lightgbm.sklearn import LGBMRegressor
 
 
 #Put here the number of your experiment
-EXPERIMENT_NUMBER = '0042'
+EXPERIMENT_NUMBER = '0001'
 
 #Put here the path to the downloaded ResNet model
 #model available at : https://migonzastorage.blob.core.windows.net/deep-learning/models/cntk/imagenet/ResNet_152.model
 #other model: https://www.cntk.ai/Models/ResNet/ResNet_18.model
-MODEL_PATH='data/ResNet_152.model'
+MODEL_PATH='../data/ResNet_152.model'
 
 #Maximum batch size for the network to evaluate.
 BATCH_SIZE=60
 
 #Put here the path where you downloaded all kaggle data
-DATA_PATH='data/'
+DATA_PATH='../data/'
 
 # Path and variables
 STAGE1_LABELS = os.path.join(DATA_PATH, 'stage1_labels.csv')
