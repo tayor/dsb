@@ -8,11 +8,11 @@ __author__ = 'ZFTurbo: https://kaggle.com/zfturbo'
 
 conf = dict()
 # Change this variable to 0 in case you want to use full dataset
-conf['use_sample_only'] = 1
+conf['use_sample_only'] = 0
 # Save weights
-conf['save_weights'] = 0
+conf['save_weights'] = 1
 # How many patients will be in train and validation set during training. Range: (0; 1)
-conf['train_valid_fraction'] = 0.5
+conf['train_valid_fraction'] = 0.8
 # Batch size for CNN [Depends on GPU and memory available]
 conf['batch_size'] = 200
 # Number of epochs for CNN training
@@ -132,7 +132,7 @@ def get_train_single_fold(train_data, fraction):
 
 def create_single_model():
 
-    train_csv_table = pd.read_csv('../input/stage1_labels.csv')
+    train_csv_table = pd.read_csv('../data/stage1_labels.csv')
     train_patients, valid_patients = get_train_single_fold(train_csv_table, conf['train_valid_fraction'])
     print('Train patients: {}'.format(len(train_patients)))
     print('Valid patients: {}'.format(len(valid_patients)))
@@ -150,12 +150,12 @@ def create_single_model():
 
     train_files = []
     for p in train_patients:
-        train_files += glob.glob("../input/{}/{}/*.dcm".format(get_dir, p))
+        train_files += glob.glob("../data/{}/{}/*.dcm".format(get_dir, p))
     print('Number of train files: {}'.format(len(train_files)))
 
     valid_files = []
     for p in valid_patients:
-        valid_files += glob.glob("../input/{}/{}/*.dcm".format(get_dir, p))
+        valid_files += glob.glob("../data/{}/{}/*.dcm".format(get_dir, p))
     print('Number of valid files: {}'.format(len(valid_files)))
 
     print('Fit model...')
@@ -172,11 +172,11 @@ def create_single_model():
 
 
 def create_submission(model):
-    sample_subm = pd.read_csv("../input/stage1_sample_submission.csv")
+    sample_subm = pd.read_csv("../data/stage1_sample_submission.csv")
     ids = sample_subm['id'].values
     for id in ids:
         print('Predict for patient {}'.format(id))
-        files = glob.glob("../input/stage1/{}/*.dcm".format(id))
+        files = glob.glob("../data/stage1/{}/*.dcm".format(id))
         image_list = []
         for f in files:
             image = load_and_normalize_dicom(f, conf['image_shape'][0], conf['image_shape'][1])
