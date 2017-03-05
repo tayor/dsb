@@ -201,7 +201,7 @@ def save_results(df, verbose=True):
 
 if __name__ == "__main__":
 
-    calc_features(verbose=False)
+    calc_features(verbose=True)
     clf = compute_training()
     df = compute_prediction(clf)
     save_results(df)

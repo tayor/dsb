@@ -33,7 +33,7 @@ def pre_process():
 ######################
 
 def get_extractor():
-    model = mx.model.FeedForward.load('models/resnet-50', 0, ctx=mx.cpu(), numpy_batch_size=1)
+    model = mx.model.FeedForward.load('../../data/models', 0, ctx=mx.gpu(), numpy_batch_size=1)
     fea_symbol = model.symbol.get_internals()["flatten0_output"]
     feature_extractor = mx.model.FeedForward(ctx=mx.cpu(), symbol=fea_symbol, numpy_batch_size=64,
                                              arg_params=model.arg_params, aux_params=model.aux_params,
@@ -161,7 +161,7 @@ def make_submit():
 
     # Outputting submission file
     timestamp = datetime.datetime.now().isoformat()
-    filename = 'submissions/submission-' + str(timestamp) + ".csv"
+    filename = '../../submission-' + str(timestamp) + ".csv"
     submission.to_csv(filename, index=False)
 
     # Submission file analysis
@@ -173,13 +173,13 @@ def make_submit():
     print("submission file stored at: " + filename)
 
 if __name__ == '__main__':
-    data = '/kaggle/dev/data-science-bowl-2017-data/'
-    stage1 = '/kaggle/dev/data-science-bowl-2017-data/stage1/'
-    labels = '/kaggle/dev/data-science-bowl-2017-data/stage1_labels.csv'
-    stage1_processed = '/kaggle/dev/data-science-bowl-2017-data/stage1_processed/'
-    stage1_features = '/kaggle/dev/data-science-bowl-2017-data/stage1_features_mx/'
-    stage1_submission = '/kaggle/dev/data-science-bowl-2017-data/stage1_sample_submission.csv'
-    naive_submission = '/kaggle/dev/jovan/data-science-bowl-2017/data-science-bowl-2017/submissions/naive_submission.csv'
+    data = '../../data/'
+    stage1 = '../../data/stage1/'
+    labels = '../../data/stage1_labels.csv'
+    stage1_processed = '../../data/stage1_processed/'
+    stage1_features = '../../data/stage1_features_mx/'
+    stage1_submission = '../../data/stage1_sample_submission.csv'
+    naive_submission = '../../data/naive_submission.csv'
 
     #calc_features()
     make_submit()
