@@ -1,0 +1,29 @@
+#!/bin/sh
+sudo mkdir /vol/data/segmented/
+sudo mkdir /vol/data/segmented/test
+sudo mkdir /vol/data/segmented/train
+sudo mkdir /vol/data/luna16/csvfiles
+sudo mkdir /vol/data/luna16/scans
+sudo mv /vol/data/luna16/subset0/* /vol/data/luna16/scans
+sudo mv /vol/data/luna16/subset1/* /vol/data/luna16/scans
+sudo mv /vol/data/luna16/subset2/* /vol/data/luna16/scans
+sudo mv /vol/data/luna16/subset3/* /vol/data/luna16/scans
+sudo mv /vol/data/luna16/subset4/* /vol/data/luna16/scans
+sudo mv /vol/data/luna16/subset5/* /vol/data/luna16/scans
+sudo mv /vol/data/luna16/subset6/* /vol/data/luna16/scans
+sudo mv /vol/data/luna16/subset7/* /vol/data/luna16/scans
+sudo mv /vol/data/luna16/subset8/* /vol/data/luna16/scans
+sudo mv /vol/data/luna16/subset9/* /vol/data/luna16/scans
+sudo rm /vol/data/luna16/subset0 -r
+sudo rm /vol/data/luna16/subset1 -r
+sudo rm /vol/data/luna16/subset2 -r
+sudo rm /vol/data/luna16/subset3 -r
+sudo rm /vol/data/luna16/subset4 -r
+sudo rm /vol/data/luna16/subset5 -r
+sudo rm /vol/data/luna16/subset6 -r
+sudo rm /vol/data/luna16/subset7 -r
+sudo rm /vol/data/luna16/subset8 -r
+sudo rm /vol/data/luna16/subset9 -r
+sudo mv /vol/data/luna16/annotations.csv /vol/data/luna16/csvfiles/annotations.csv
+
+

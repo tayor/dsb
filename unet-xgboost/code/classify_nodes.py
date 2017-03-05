@@ -1,4 +1,4 @@
-# usage: python classify_nodes.py nodes.npy 
+# usage: python classify_nodes.py nodes.npy
 
 import numpy as np
 import scipy as sp
@@ -8,7 +8,7 @@ from sklearn.metrics import classification_report
 from sklearn.ensemble import RandomForestClassifier as RF
 import xgboost as xgb
 
-data_path = '/home/ubuntu/fs/data/dsb17/'
+data_path = '../../../data/'
 results_path = data_path+'results/'
 
 
@@ -71,7 +71,7 @@ def train_classifier():
         y_pred[test] = clf.predict(X_test)
     # print classification_report(Y, y_pred, target_names=["No Cancer", "Cancer"])
     params = {'objective': 'multi:softmax',
-              'num_class': 2}    
+              'num_class': 2}
 
     dtrain = xgb.DMatrix(X, Y)
     clf = xgb.train(params, dtrain)
@@ -96,7 +96,7 @@ def predict_test():
     X_ids = np.load(results_path+'testId.npy')
 
     params = {'objective': 'multi:softmax',
-              'num_class': 2}    
+              'num_class': 2}
 
     dtrain = xgb.DMatrix(X, Y)
     clf = xgb.train(params, dtrain)

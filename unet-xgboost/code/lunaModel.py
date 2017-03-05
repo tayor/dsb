@@ -91,7 +91,7 @@ def get_unet():
 
 
 def train_model(csv_path, scan_path, results_path, batch_size=4, num_epoch=8, load_weights=False):
-    
+
     # all nodules
     df = pd.read_csv(csv_path)
     num_ids = len(df)
@@ -125,8 +125,8 @@ def train_model(csv_path, scan_path, results_path, batch_size=4, num_epoch=8, lo
 
 
 if __name__ == '__main__':
-	
-	data_path = '/home/ubuntu/fs/data/dsb17/luna16/'
+
+	data_path = '../../../data/luna16/'
 	scan_path = data_path+'scans/'
 	csv_path = data_path+'csvfiles/annotations.csv'
 	results_path = data_path+'results/'

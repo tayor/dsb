@@ -15,7 +15,7 @@ from keras.models import Model
 from lunaModel import get_unet
 from lunaIterator import segment_lungs
 
-data_path = '../data/dsb/'
+data_path = '../../../data/'
 weights_path = data_path+'luna16/results/'
 scan_path = data_path+'stage1/'
 labels_file = data_path+'stage1_labels.csv'
