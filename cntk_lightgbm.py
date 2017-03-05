@@ -1,3 +1,4 @@
+#
 # This script uses a pretrained ResNet model of 152 layers in CNTK and a boosted tree in LightGBM to
 # classify the data. It takes the next to last layer of ResNet to generate the features. Then
 # they are averaged and fed to a tree.
@@ -25,26 +26,25 @@ from lightgbm.sklearn import LGBMRegressor
 
 
 #Put here the number of your experiment
-EXPERIMENT_NUMBER = '0001'
+EXPERIMENT_NUMBER = '0042'
 
 #Put here the path to the downloaded ResNet model
 #model available at : https://migonzastorage.blob.core.windows.net/deep-learning/models/cntk/imagenet/ResNet_152.model
 #other model: https://www.cntk.ai/Models/ResNet/ResNet_18.model
-MODEL_PATH='../data/ResNet_152.model'
+MODEL_PATH='data/ResNet_152.model'
 
 #Maximum batch size for the network to evaluate.
 BATCH_SIZE=60
 
 #Put here the path where you downloaded all kaggle data
-DATA_PATH='../data/'
+DATA_PATH='data/'
 
 # Path and variables
-STAGE1_LABELS = os.path.join(DATA_PATH, 'stage1_labels.csv')
-STAGE1_SAMPLE_SUBMISSION = os.path.join(DATA_PATH, 'stage1_sample_submission.csv')
-STAGE1_FOLDER = os.path.join(DATA_PATH, 'stage1')
-EXPERIMENT_FOLDER = 'features%s' % EXPERIMENT_NUMBER
-FEATURE_FOLDER = os.path.join(DATA_PATH, 'features', EXPERIMENT_FOLDER)
-SUBMIT_OUTPUT='submit%s.csv' % EXPERIMENT_NUMBER
+STAGE1_LABELS=DATA_PATH + 'stage1_labels.csv'
+STAGE1_SAMPLE_SUBMISSION=DATA_PATH + 'stage1_sample_submission.csv'
+STAGE1_FOLDER=DATA_PATH + 'stage1/'
+FEATURE_FOLDER=DATA_PATH + 'features/features' + EXPERIMENT_NUMBER + '/'
+SUBMIT_OUTPUT='submit' + EXPERIMENT_NUMBER + '.csv'
 
 
 class Timer(object):
@@ -76,7 +76,7 @@ def get_extractor():
 
 def get_3d_data(path):
     """Get the 3D data."""
-    slices = [dicom.read_file(os.path.join(path, s)) for s in os.listdir(path)]
+    slices = [dicom.read_file(path + '/' + s) for s in os.listdir(path)]
     slices.sort(key=lambda x: int(x.InstanceNumber))
     return np.stack([s.pixel_array for s in slices])
 
@@ -131,9 +131,8 @@ def calc_features(verbose=True):
     net = get_extractor()
     for folder in glob.glob(STAGE1_FOLDER+'*'):
         foldername = os.path.basename(folder)
-        foldername_npy = foldername + '.npy'
-        if os.path.isfile(os.path.join(FEATURE_FOLDER, foldername_npy)):
-            if verbose: print("Features in %s already computed" % (os.path.join(FEATURE_FOLDER, foldername)))
+        if os.path.isfile(FEATURE_FOLDER+foldername+'.npy'):
+            if verbose: print("Features in %s already computed" % (FEATURE_FOLDER+foldername))
             continue
         batch = get_data_id(folder)
         if verbose:
@@ -142,15 +141,15 @@ def calc_features(verbose=True):
         feats = batch_evaluation(net, batch, BATCH_SIZE)
         if verbose:
             print(feats.shape)
-            print("Saving features in %s" % os.path.join(FEATURE_FOLDER, foldername))
-        np.save(os.path.join(FEATURE_FOLDER, foldername), feats)
+            print("Saving features in %s" % (FEATURE_FOLDER+foldername))
+        np.save(FEATURE_FOLDER+foldername, feats)
 
 
 def train_lightgbm(verbose=True):
     """Train a boosted tree with LightGBM."""
     if verbose: print("Training with LightGBM")
     df = pd.read_csv(STAGE1_LABELS)
-    x = np.array([np.mean(np.load(os.path.join(FEATURE_FOLDER,'%s.npy' % str(id))), axis=0).flatten() for id in df['id'].tolist()])
+    x = np.array([np.mean(np.load(FEATURE_FOLDER+'%s.npy' % str(id)), axis=0).flatten() for id in df['id'].tolist()])
     y = df['cancer'].as_matrix()
 
     trn_x, val_x, trn_y, val_y = cross_validation.train_test_split(x, y, random_state=42, stratify=y,
@@ -182,7 +181,7 @@ def compute_prediction(clf, verbose=True):
     """Wrapper function to perform the prediction."""
     if verbose: print("Compute prediction")
     df = pd.read_csv(STAGE1_SAMPLE_SUBMISSION)
-    x = np.array([np.mean(np.load(os.path.join(FEATURE_FOLDER, '%s.npy' % str(id))), axis=0).flatten() for id in df['id'].tolist()])
+    x = np.array([np.mean(np.load((FEATURE_FOLDER+'%s.npy') % str(id)), axis=0).flatten() for id in df['id'].tolist()])
 
     with Timer() as t:
         pred = clf.predict(x)
