@@ -19,11 +19,11 @@ def train_tpot():
     df = pd.read_csv("stage1_labels.csv")
     x = get_trn()
     y = df['cancer'].as_matrix()
-    tpot = TPOTClassifier(generations=20, population_size=20,num_cv_folds=5,scoring=logloss_error, random_state=42, verbosity=2)
+    tpot = TPOTClassifier(generations=20, population_size=20,num_cv_folds=5,scoring=logloss_error,max_time_mins=240, random_state=42, verbosity=2)
     tpot.fit(x, y)
     print(tpot.score(X_test, y_test))
     tpot.export('tpot_dsb_pipeline.py')
 
 
 if __name__ == '__main__':
-    make_submit()
+    train_tpot()
