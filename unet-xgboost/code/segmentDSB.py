@@ -124,4 +124,4 @@ if __name__ == '__main__':
  #    print('Segmenting train files...')
 	# segment_train(weights_path+'weights_1e-6_01_-0.608.hdf5')
     print('Segmenting test files...')
-    segment_test(weights_path+'weights_1e-6_01_-0.608.hdf5')
+    segment_test(weights_path+'weights_1e-6_01_-0.009.hdf5')

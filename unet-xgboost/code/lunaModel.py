@@ -131,4 +131,4 @@ if __name__ == '__main__':
 	csv_path = data_path+'csvfiles/annotations.csv'
 	results_path = data_path+'results/'
 
-	train_model(csv_path, scan_path, results_path, num_epoch=5, load_weights=True)
+	train_model(csv_path, scan_path, results_path, num_epoch=5, load_weights=False)
