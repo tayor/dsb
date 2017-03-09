@@ -27,3 +27,5 @@ def train_tpot():
 
 if __name__ == '__main__':
     train_tpot()
+    #best pipeline
+    #ExtraTreesClassifier(input_matrix, 36, 0.46000000000000002)

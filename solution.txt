@@ -1,0 +1,16 @@
+Won't go in too much detail here, but here's the general pipeline of my current LB submission (~0.42):
+
+Pre-process all of the stage 1 and LUNA16 images into a common format, segmenting the lungs and rescaling to 1x1x1mm voxels;
+Extract 64x64x64 chunks from all entries on the LUNA16 annotations_excluded.csv file, and a random sample of the non-nodule entries from candidates.csv as a negative reference;
+Train a 3D VGG derivative on augmented entries from the features above with the labels being classes based on the size of the nodules;
+Chop up each scan from the stage 1 dataset into overlapping chunks to fit the above network, capturing the output label and the final convolution step;
+Build a feature set from the output above, aggregating over all chunks;
+Train a XGB classifier with the features and the stage 1 labels;
+Evaluate the classifier on the test set;
+The devil is in the details, and all of this takes considerable time to fit all together, but I believe the other top scores right now are using similar techniques, basically the idea of training on LUNA16 data and then reusing that to extract features from the competition dataset.
+
+I think working with 3D ConvNets here is the way to go, and I don't think reusing trained VGG16 or ResNet weights will go much better than the ~0.5 of most approaches using it right now. I think the main problem is having at most 3 layers at once, and the original training having no spatial correlation over the (originally color) layers.
+
+A design based on VGG or ResNet with a few more layers may work decently enough, but you still need to train it up with something else than the competition data if you want to get anywhere.
+
+Good luck and have fun :-)

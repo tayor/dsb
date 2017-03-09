@@ -176,7 +176,7 @@ def createTrainFeatureDataset(nodfiles=None):
         base = os.path.basename(nodfiles[i])
         patID = os.path.splitext(base)[0]
         truth_metric[i] = df[df['id'] == patID].iloc[0]['cancer']
-        feature_array[i] = get_features(patID)
+        feature_array[i] = get_features(patID, noddir)
 
     np.save(results_path+'dataY.npy', truth_metric)
     np.save(results_path+'dataX.npy', feature_array)
@@ -197,7 +197,7 @@ def createTestFeatureDataset(nodfiles=None):
         base = os.path.basename(nodfiles[i])
         patID = os.path.splitext(base)[0]
         ids[i] = patID
-        feature_array[i] = get_features(patID)
+        feature_array[i] = get_features(patID, noddir)
 
     np.save(results_path+'testX.npy', feature_array)
     np.save(results_path+'testId.npy', ids)
@@ -205,6 +205,6 @@ def createTestFeatureDataset(nodfiles=None):
 
 if __name__ == "__main__":
     # print('Creating train features...')
-    # createTrainFeatureDataset(data_path+'segmented/train/')
+    # createTrainFeatureDataset()
     print('Creating test data features')
-    createTestFeatureDataset(data_path+'segmented/test/')
+    createTestFeatureDataset()
