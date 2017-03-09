@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import scipy as sp
 import matplotlib.pyplot as plt
-import cv2
+#import cv2
 from keras.models import Model
 from keras.layers import Input, merge, Convolution2D, MaxPooling2D, UpSampling2D, BatchNormalization
 from keras.optimizers import Adam
@@ -21,8 +21,8 @@ import dicom
 from glob import glob
 from tqdm import tqdm
 import os
-import xgboost as xgb
-import SimpleITK as sitk
+#import xgboost as xgb
+#import SimpleITK as sitk
 
 data_path = '../../../data/'
 weights_path = data_path+'luna16/results/'
