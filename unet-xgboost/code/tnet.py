@@ -579,22 +579,22 @@ def train_classifier():
         clf = RF(n_estimators=100, n_jobs=3)
         clf.fit(X_train, y_train)
         y_pred[test] = clf.predict(X_test)
-    print classification_report(Y, y_pred, target_names=["No Cancer", "Cancer"])
+    print(classification_report(Y, y_pred, target_names=["No Cancer", "Cancer"]))
 
     y_pred[y_pred > 0.95] = 0.75
     y_pred[y_pred < 0.05] = 0.25
     print("logloss",logloss(Y, y_pred))
 
     # All Cancer
-    print "Predicting all positive"
+    print("Predicting all positive")
     y_pred = np.ones(Y.shape)
-    print classification_report(Y, y_pred, target_names=["No Cancer", "Cancer"])
+    print(classification_report(Y, y_pred, target_names=["No Cancer", "Cancer"]))
     print("logloss",logloss(Y, y_pred))
 
     # No Cancer
-    print "Predicting all negative"
+    print("Predicting all negative")
     y_pred = Y*0
-    print classification_report(Y, y_pred, target_names=["No Cancer", "Cancer"])
+    print(classification_report(Y, y_pred, target_names=["No Cancer", "Cancer"]))
     print("logloss",logloss(Y, y_pred))
 
     # try XGBoost
@@ -621,10 +621,10 @@ def train_classifier():
     y_pred[y_pred > 0.95] = 0.95
     y_pred[y_pred < 0.05] = 0.05
 
-    print y_pred[0:100]
+    print(y_pred[0:100])
     print("logloss",logloss(Y, y_pred))
 
-    print "Predicting all 0.25"
+    print("Predicting all 0.25")
     y_pred = np.ones(Y.shape)*0.25
     print("logloss",logloss(Y, y_pred))
 
@@ -654,12 +654,14 @@ def predict_test():
     print('Saved predictions in {}'.format(subm_file_name))
 
 if __name__ == '__main__':
+    '''
     print('training unet on luna16 dataset..')
-	train_model(csv_path, scan_path_luna, weights_path, num_epoch=5, load_weights=False)
+    train_model(csv_path, scan_path_luna, weights_path, num_epoch=5, load_weights=False)
     print('Segmenting train files..')
     segment_train(weights_path+'weights_1e-6_01_-0.009.hdf5')
     print('Segmenting test files..')
     segment_test(weights_path+'weights_1e-6_01_-0.009.hdf5')
+    '''
     print('Creating train features...')
     createTrainFeatureDataset()
     print('Creating test data features')
